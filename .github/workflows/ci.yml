@@ -19,8 +19,21 @@ jobs:
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update
-          sudo apt-get install -y clang gcc cppcheck clang-format valgrind
+          sudo apt-get install -y clang gcc cppcheck valgrind
           sudo update-alternatives --set cc /usr/bin/${{ matrix.compiler }}
+
+      - name: Install clang-format (Ubuntu)
+        if: runner.os == 'Linux'
+        run: |
+          # Устанавливаем конкретную версию clang-format для стабильности
+          sudo apt-get install -y software-properties-common
+          wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | sudo tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
+          UBUNTU_CODENAME=$(lsb_release -sc)
+          sudo add-apt-repository "deb http://apt.llvm.org/${UBUNTU_CODENAME}/ llvm-toolchain-${UBUNTU_CODENAME}-18 main"
+          sudo apt-get update
+          sudo apt-get install -y clang-format-18
+          # Создаем symlink на конкретную версию
+          sudo update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-18 100
 
       - name: Install tools (macOS)
         if: runner.os == 'macOS'
