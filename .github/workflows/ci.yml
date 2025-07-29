@@ -25,21 +25,23 @@ jobs:
       - name: Install clang-format (Ubuntu)
         if: runner.os == 'Linux'
         run: |
-          # Устанавливаем конкретную версию clang-format для стабильности
+          # Устанавливаем точно ту же версию clang-format как на macOS (20.1.8)
           sudo apt-get install -y software-properties-common
           wget -qO- https://apt.llvm.org/llvm-snapshot.gpg.key | sudo tee /etc/apt/trusted.gpg.d/apt.llvm.org.asc
           UBUNTU_CODENAME=$(lsb_release -sc)
-          sudo add-apt-repository "deb http://apt.llvm.org/${UBUNTU_CODENAME}/ llvm-toolchain-${UBUNTU_CODENAME}-18 main"
+          sudo add-apt-repository "deb http://apt.llvm.org/${UBUNTU_CODENAME}/ llvm-toolchain-${UBUNTU_CODENAME}-20 main"
           sudo apt-get update
-          sudo apt-get install -y clang-format-18
+          sudo apt-get install -y clang-format-20
           # Создаем symlink на конкретную версию
-          sudo update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-18 100
+          sudo update-alternatives --install /usr/bin/clang-format clang-format /usr/bin/clang-format-20 100
 
       - name: Install tools (macOS)
         if: runner.os == 'macOS'
         run: |
           brew update
-          brew install cppcheck clang-format
+          brew install cppcheck
+          # Устанавливаем clang-format через Homebrew (обычно последняя стабильная)
+          brew install clang-format
           if [[ "${{ matrix.compiler }}" != "clang" ]]; then
             echo "Skipping gcc on macOS (use clang)"; exit 0
           fi
