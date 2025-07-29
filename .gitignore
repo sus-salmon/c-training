@@ -1,34 +1,13 @@
-# Prerequisites
-*.d
+# Build directories
+build/
+*/build/
+**/build/
 
-# Object files
+# Compiled binaries and objects
 *.o
 *.ko
 *.obj
 *.elf
-
-# Linker output
-*.ilk
-*.map
-*.exp
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Libraries
-*.lib
-*.a
-*.la
-*.lo
-
-# Shared objects (inc. Windows DLLs)
-*.dll
-*.so
-*.so.*
-*.dylib
-
-# Executables
 *.exe
 *.out
 *.app
@@ -36,11 +15,48 @@
 *.x86_64
 *.hex
 
-# Debug files
+# Libraries and shared objects
+*.lib
+*.a
+*.la
+*.lo
+*.dll
+*.so
+*.so.*
+*.dylib
+
+# Debug and intermediate files
+*.d
 *.dSYM/
 *.su
 *.idb
 *.pdb
+*.ilk
+*.map
+*.exp
+*.gch
+*.pch
+
+# IDE and editor files
+.idea/
+*.swp
+*.swo
+*~
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Test output
+*.test
+
+# Valgrind output
+*.valgrind
 
 # Kernel Module Compile Results
 *.mod*
