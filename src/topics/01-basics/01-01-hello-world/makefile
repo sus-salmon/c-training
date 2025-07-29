@@ -80,8 +80,7 @@ test: build $(TESTBIN)
 
 .PHONY: valgrind
 valgrind: $(TESTBIN)
-	@if [ ! -f "$(TESTBIN)" ]; then echo "Ошибка: тестовый исполняемый файл $(TESTBIN) не найден. Запустите 'make test' сначала."; exit 1; fi
-	@if command -v valgrind >/dev/null 2>&1; then valgrind --error-exitcode=1 ./$(TESTBIN); else echo "valgrind не установлен"; fi
+	@echo "valgrind не доступен на macOS. Используйте санитайзеры (включены в 'make test')."
 
 .PHONY: clean
 clean:

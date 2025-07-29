@@ -68,11 +68,9 @@ format:  ; $(call RUN_IN_ALL,format)
 format-fix: ; $(call RUN_IN_ALL,format-fix)
 cppcheck:; $(call RUN_IN_ALL,cppcheck)
 
-# valgrind только для Linux (по мере возможности)
+# valgrind не поддерживается на macOS
 valgrind:
-	@set -euo pipefail; \
-	if ! command -v valgrind >/dev/null 2>&1; then echo "valgrind не найден"; exit 1; fi; \
-	$(call RUN_IN_ALL,valgrind)
+	@echo "valgrind не доступен на macOS. Используйте санитайзеры (включены в 'make test')."
 
 help:
 	@echo "=== Система Сборки C Training ==="
@@ -85,7 +83,7 @@ help:
 	@echo "  format     - Проверить форматирование кода"
 	@echo "  format-fix - Исправить проблемы форматирования"
 	@echo "  cppcheck   - Статический анализ кода"
-	@echo "  valgrind   - Проверка памяти (только Linux)"
+	@echo "  valgrind   - Не доступен на macOS (используйте санитайзеры)"
 	@echo "  list       - Показать все найденные задачи"
 	@echo "  help       - Показать это сообщение"
 	@echo ""

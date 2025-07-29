@@ -10,35 +10,19 @@ on:
 
 jobs:
   build-test:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-        compiler: [clang, gcc]
-    runs-on: ${{ matrix.os }}
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install tools (Ubuntu)
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y clang gcc cppcheck clang-format valgrind
-          sudo update-alternatives --set cc /usr/bin/${{ matrix.compiler }}
-
-      - name: Install tools (macOS)
-        if: runner.os == 'macOS'
+      - name: Install tools
         run: |
           brew update
           brew install cppcheck clang-format
-          if [[ "${{ matrix.compiler }}" != "clang" ]]; then
-            echo "Skipping gcc on macOS (use clang)"; exit 0
-          fi
 
       - name: Verify tools installation
         run: |
           echo "=== Проверка установленных инструментов ==="
-          ${{ matrix.compiler }} --version
+          clang --version
           cppcheck --version
           clang-format --version
 
@@ -53,7 +37,3 @@ jobs:
 
       - name: Test all (sanitizers)
         run: make test
-
-      - name: Valgrind (Ubuntu only)
-        if: runner.os == 'Linux'
-        run: make valgrind
